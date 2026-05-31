@@ -1,0 +1,46 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    image: velai-website:latest
+    container_name: velai-website
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    expose:
+      - "3000"
+    networks:
+      - velai-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  nginx:
+    image: nginx:alpine
+    container_name: velai-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/velai.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx-cache:/var/cache/nginx
+    depends_on:
+      app:
+        condition: service_healthy
+    networks:
+      - velai-net
+
+networks:
+  velai-net:
+    driver: bridge
+
+volumes:
+  nginx-cache:

@@ -1,0 +1,15 @@
+.git
+.github
+node_modules
+.next
+.env*
+!.env.example
+npm-debug.log*
+README.md
+DEPLOY.md
+CHANGELOG.md
+scripts/
+docker/
+.vscode/
+.zed/
+*.md

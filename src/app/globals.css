@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ── Brand Tokens (Velai Design System v2.0) ── */
+@theme {
+    /* Colors */
+    --color-gold: #f6b91a;
+    --color-gold-hover: #ff8a1f;
+    --color-gold-dark: #d49c0f;
+    --color-gold-light: #feeebf;
+    --color-gold-muted: color-mix(in srgb, #f6b91a 12%, transparent);
+
+    --color-navy: #161829;
+    --color-navy-dark: #0f1120;
+    --color-navy-mid: #202334;
+
+    --color-canvas: #f5f7fb;
+    --color-warm: #fff8f4;
+    --color-warm-mid: #f0ebe1;
+    --color-surface: #ffffff;
+    --color-divider: #dde1ea;
+
+    --color-slate-900: #202334;
+    --color-slate-700: #3d4057;
+    --color-slate-500: #6b7285;
+    --color-slate-300: #9aa0b4;
+    --color-slate-100: #eceef4;
+
+    --color-success: #27c281;
+    --color-success-light: #e8f9f2;
+    --color-warning: #ffb020;
+    --color-warning-light: #fff4de;
+    --color-danger: #f04438;
+    --color-danger-light: #feeceb;
+
+    /* Typography */
+    --font-sans: var(--font-inter);
+    --font-display: var(--font-bricolage);
+
+    /* Radius */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.875rem;
+    --radius-lg: 1.125rem;
+    --radius-xl: 1.5rem;
+    --radius-2xl: 2.5rem;
+    --radius-full: 9999px;
+}
+
+/* ── Base ── */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--color-surface);
+    color: var(--color-slate-900);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Focus ring ── */
+:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ── Selection ── */
+::selection {
+    background-color: color-mix(in srgb, #f6b91a 25%, transparent);
+    color: var(--color-navy);
+}
+
+/* ── Scrollbar (subtle) ── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-canvas);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color-slate-300);
+    border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-slate-500);
+}
