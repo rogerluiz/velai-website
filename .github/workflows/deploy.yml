@@ -89,6 +89,8 @@ jobs:
               name: "APP_NAME_PLACEHOLDER",
               script: "DIR_PLACEHOLDER/server.js",
               cwd: "DIR_PLACEHOLDER",
+              node_args: "--max-old-space-size=350",
+              max_memory_restart: "400M",
               env: {
                 PORT: "PORT_PLACEHOLDER",
                 NODE_ENV: "production",
