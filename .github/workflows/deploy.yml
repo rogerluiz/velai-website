@@ -154,7 +154,7 @@ jobs:
             "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" \
             "APP='${{ needs.build.outputs.app }}'; DIR='${{ needs.build.outputs.dir }}';
              if pm2 describe \"\$APP\" > /dev/null 2>&1; then
-               pm2 reload \"\$APP\" --update-env
+               pm2 reload \"\$DIR/pm2.config.js\"
              else
                pm2 start \"\$DIR/pm2.config.js\"
                pm2 save
