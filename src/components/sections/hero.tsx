@@ -158,7 +158,7 @@ export function Hero() {
                 >
                   <path
                     d="M1 6 Q50 1 100 5 Q150 9 199 3"
-                    stroke="#F6B91A"
+                    stroke="currentColor"
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     opacity="0.6"
@@ -186,14 +186,14 @@ export function Hero() {
             >
               <Link
                 href="#download"
-                className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-lg bg-gold text-navy hover:bg-gold-hover transition-all duration-200 shadow-[0_2px_12px_rgba(246,185,26,0.3)] hover:shadow-[0_4px_20px_rgba(246,185,26,0.45)]"
+                className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-full bg-gold text-navy hover:bg-gold-hover transition-all duration-200 shadow-[0_2px_12px_rgba(34,211,238,0.25)] hover:shadow-[0_4px_20px_rgba(34,211,238,0.40)] hover:scale-[1.02]"
               >
                 <Download size={18} />
                 Baixar para Windows
               </Link>
               <Link
                 href="#how-it-works"
-                className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-lg border border-gold/40 text-gold hover:bg-gold-muted hover:border-gold transition-all duration-200"
+                className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-full border border-gold/40 text-gold hover:bg-gold-muted hover:border-gold transition-all duration-200"
               >
                 Ver como funciona
               </Link>

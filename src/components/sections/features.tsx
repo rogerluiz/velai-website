@@ -107,7 +107,7 @@ export function Features() {
                   "transition-shadow duration-300",
                 )}
               >
-                <div className="inline-flex p-3 rounded-xl bg-gold-light mb-5">
+                <div className="inline-flex p-3 rounded-xl bg-[var(--color-gold-muted)] mb-5">
                   <Icon size={22} className="text-gold" />
                 </div>
                 <h3 className="text-navy font-semibold text-lg mb-2 leading-snug">

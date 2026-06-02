@@ -77,7 +77,9 @@ export function HowItWorks() {
                 >
                   {/* Icon circle */}
                   <div className="relative mb-6 z-10">
-                    <div className={`w-20 h-20 rounded-2xl ${step.bg} flex items-center justify-center shadow-sm border border-divider bg-surface`}>
+                    <div
+                      className={`w-20 h-20 rounded-2xl ${step.bg} flex items-center justify-center shadow-sm border border-divider`}
+                    >
                       <Icon size={28} className={step.accent} />
                     </div>
                     <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center shadow">
