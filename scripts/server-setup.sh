@@ -70,22 +70,38 @@ fi
 # ── 4. Instalar configs de QA e Dev ─────────────────────────────────────────
 echo "▶ Instalando configs Nginx para qa e dev..."
 
-install_nginx_conf() {
-  local SRC="$1"
-  local DEST="$2"
+install_nginx_http_only() {
+  local SUBDOMAIN="$1"   # ex: qa
+  local PORT="$2"         # ex: 3001
+  local DEST="/etc/nginx/conf.d/${SUBDOMAIN}.conf"
+  local FQDN="${SUBDOMAIN}.usevelai.app"
 
-  if [ ! -f "$SRC" ]; then
-    echo "  AVISO: $SRC não encontrado, pulando."
-    return
-  fi
+  # Instala SOMENTE o bloco HTTP — certbot --nginx adicionará o SSL depois
+  cat > "$DEST" << NGINXEOF
+server {
+    listen 80;
+    server_name $FQDN;
 
-  # Substitui SEU_IP pelo IP real
-  sed "s|SEU_IP|$ALLOWED_IP|g" "$SRC" > "$DEST"
-  echo "  Instalado: $DEST"
+    # Restrição de IP
+    allow $ALLOWED_IP;
+    deny  all;
+
+    location / {
+        proxy_pass         http://127.0.0.1:$PORT;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              \$host;
+        proxy_set_header   X-Real-IP         \$remote_addr;
+        proxy_set_header   X-Forwarded-For   \$proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto \$scheme;
+    }
+}
+NGINXEOF
+
+  echo "  Instalado (HTTP only): $DEST"
 }
 
-install_nginx_conf "$REPO_DIR/nginx/qa.conf"  "/etc/nginx/conf.d/qa.conf"
-install_nginx_conf "$REPO_DIR/nginx/dev.conf" "/etc/nginx/conf.d/dev.conf"
+install_nginx_http_only "qa"  "3001"
+install_nginx_http_only "dev" "3002"
 
 # ── 5. Testar config Nginx ───────────────────────────────────────────────────
 echo "▶ Testando configuração Nginx..."
