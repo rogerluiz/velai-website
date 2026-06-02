@@ -88,7 +88,7 @@ function TestimonialCard({
       <StarRow />
 
       <blockquote className="text-white/75 text-sm leading-relaxed flex-1">
-        "{testimonial.quote}"
+        &ldquo;{testimonial.quote}&rdquo;
       </blockquote>
 
       <div className="flex items-center gap-3 pt-2 border-t border-white/8">

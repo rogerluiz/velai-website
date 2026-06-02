@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { getLatestRelease } from "@/lib/github";
 import { DownloadCards } from "./download-cards";
 
