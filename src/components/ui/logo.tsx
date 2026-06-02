@@ -1,0 +1,255 @@
+import type { CSSProperties } from "react";
+
+import { cn } from "@/lib/utils";
+
+// ── viewBox dimensions ───────────────────────────────────────────────────────
+// Icon portion:  original logo.svg paths, trimmed below the flame
+const ICON_W = 151;
+const ICON_H = 141; // flame ends at y ≈ 138; tiny padding added
+
+// Wordmark portion: "Velai" letters live at y 160-219 in the same coordinate space
+const TEXT_W = 151;
+const TEXT_H = 59; // 219 - 160
+const TEXT_ORIGIN_Y = 160;
+
+// Precomputed aspect ratios (width / height)
+const ICON_ASPECT = ICON_W / ICON_H; // ≈ 1.071
+const TEXT_ASPECT = TEXT_W / TEXT_H; // ≈ 2.559
+
+// ── size presets (icon height in px) ─────────────────────────────────────────
+const SIZE_MAP = {
+  xs: 24,
+  sm: 32,
+  md: 40,
+  lg: 56,
+  xl: 72,
+  "2xl": 96,
+} as const;
+
+type SizeKey = keyof typeof SIZE_MAP;
+
+// ── public types ─────────────────────────────────────────────────────────────
+export type LogoVariant = "horizontal" | "vertical" | "icon" | "wordmark";
+
+export interface LogoProps {
+  /**
+   * Controls how the icon and wordmark are arranged.
+   * - `horizontal` – icon on the left, "Velai" text on the right (default)
+   * - `vertical`   – icon on top, "Velai" text below
+   * - `icon`       – flame icon only
+   * - `wordmark`   – "Velai" text only
+   */
+  variant?: LogoVariant;
+
+  /**
+   * Fill colour for the flame icon.
+   * @default "#FD9F26"  (Velai brand gold)
+   */
+  iconColor?: string;
+
+  /**
+   * Fill colour for the "Velai" wordmark.
+   * @default "#0a0a0a"
+   */
+  textColor?: string;
+
+  /**
+   * Height of the icon (and proportionally the text).
+   * Accepts a preset key or an explicit pixel number.
+   * @default "md"
+   */
+  size?: SizeKey | number;
+
+  /** Extra class names forwarded to the outer wrapper */
+  className?: string;
+  style?: CSSProperties;
+}
+
+// ── internal sub-components ──────────────────────────────────────────────────
+
+function FlameIcon({
+  fill,
+  width,
+  height,
+}: {
+  fill: string;
+  width: number;
+  height: number;
+}) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${ICON_W} ${ICON_H}`}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M75.9932 0C76.0533 0.0666352 113.952 42.0639 100.304 73.5029C103.822
+           66.4874 110.165 52.8295 110.401 42.9355C126.28 56.169 129.483 78.2496
+           127.457 97.9277C125.561 116.35 107.372 135.021 92.166 137.848C92.1658
+           126.887 92.1664 103.179 92.1631 95.5459C92.163 94.899 91.841 94.2946
+           91.3047 93.9326C90.7686 93.5704 90.0875 93.4975 89.4873 93.7393C86.1199
+           95.0173 82.2851 96.0901 78.0518 96.9443V89.4785C83.2461 88.451 87.1678
+           83.8661 87.168 78.3721C87.168 71.0095 75.8581 53.8352 75.8457
+           53.8164C75.7904 53.9004 64.5244 71.0235 64.5244 78.3721C64.5246 84.0717
+           68.745 88.7933 74.2285 89.5791V97.6387C70.572 98.233 66.6612 98.6781
+           62.5342 98.9678C61.2557 99.0566 60.1697 99.9363 59.8174 101.169L58.2588
+           106.623C58.5502 106.987 58.6468 107.47 58.5186 107.919L60.0205
+           109.796C60.2704 110.109 60.4072 110.497 60.4072 110.897V138.122C44.8575
+           136.765 25.0424 120.446 23.3555 97.9277C21.878 78.2011 24.5316 56.169
+           40.4102 42.9355C39.5275 60.5793 46.7911 71.2555 48.6436 74.9893C36.0001
+           47.3485 75.9858 0.00873975 75.9932 0ZM75.6982 74.9902C75.7289 75.0432
+           79.5215 81.5885 79.5215 84.4004C79.5215 86.5103 77.8083 88.2236 75.6982
+           88.2236C73.5882 88.2236 71.875 86.5103 71.875 84.4004C71.875 81.5888
+           75.6668 75.0445 75.6982 74.9902ZM100.304 73.5029C99.4298 75.2453 98.7319
+           76.5794 98.3428 77.3428C99.0889 76.0836 99.7398 74.8018 100.304
+           73.5029ZM109.187 12.9932C110.108 15.5957 112.155 17.6434 114.758
+           18.5645C116.959 19.3434 119.223 20.1445 119.223 20.1445C119.223 20.1445
+           116.959 20.9456 114.758 21.7246C112.155 22.6456 110.108 24.6925 109.187
+           27.2949C108.408 29.4964 107.606 31.7607 107.606 31.7607C107.606 31.7607
+           106.805 29.4964 106.026 27.2949C105.105 24.6925 103.058 22.6456 100.455
+           21.7246C98.2537 20.9456 95.9902 20.1445 95.9902 20.1445C95.9902 20.1445
+           98.2537 19.3434 100.455 18.5645C103.058 17.6434 105.105 15.5957 106.026
+           12.9932C106.803 10.7991 107.601 8.54338 107.606 8.52832C107.612 8.54444
+           108.41 10.7996 109.187 12.9932Z"
+        fill={fill}
+      />
+    </svg>
+  );
+}
+
+function VelaiWordmark({
+  fill,
+  width,
+  height,
+}: {
+  fill: string;
+  width: number;
+  height: number;
+}) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 ${TEXT_ORIGIN_Y} ${TEXT_W} ${TEXT_H}`}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {/* v — stylised fire-V shape */}
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M0 192.703C6.25537 192.73 12.5614 203.965 18.1924 218.042H28.8046C38.3897
+           194.395 51.7617 169.096 63.4568 161.299L62.8071 160C44.0743 167.578
+           33.3337 186.055 23.6068 205.914C15.3769 189.888 11.9117 181.441 0
+           192.703Z"
+        fill={fill}
+      />
+      {/* e */}
+      <path
+        d="M76.8138 204.896H55.9209C56.0874 207.21 56.8639 208.931 58.2513
+           210.057C59.6375 211.183 61.5503 211.745 63.9908 211.745C64.9081 211.745
+           66.1752 211.47 67.7907 210.916C69.4063 210.364 70.9757 209.494 72.4977
+           208.305L76.8766 213.904C74.6871 215.635 72.4349 216.897 70.1211
+           217.689C67.8061 218.482 65.2515 218.877 62.4573 218.877C57.2866 218.877
+           53.2728 217.444 50.4158 214.577C47.5589 211.709 46.1304 207.711 46.1304
+           202.581C46.1304 197.472 47.6421 193.312 50.6656 190.102C53.6891 186.89
+           57.516 185.285 62.1447 185.285C66.5865 185.285 70.1416 186.625 72.8102
+           189.303C75.4801 191.984 76.8138 195.877 76.8138 200.986V204.896ZM67.6498
+           198.828C67.6498 196.347 67.1861 194.579 66.2585 193.526C65.3297 192.473
+           63.9383 191.946 62.082 191.946C60.4972 191.946 59.1263 192.561 57.9694
+           193.793C56.8126 195.023 56.1079 196.701 55.8581 198.828H67.6498Z"
+        fill={fill}
+      />
+      {/* l */}
+      <path d="M96.2977 170.678H86.4136V218.096H96.2977V170.678Z" fill={fill} />
+      {/* a */}
+      <path
+        d="M131.798 218.095H122.446V213.498H122.321C121.258 215.29 119.928 216.635
+           118.333 217.532C116.738 218.429 114.929 218.877 112.906 218.877C110.133
+           218.877 107.751 218.028 105.759 216.328C103.768 214.629 102.772 212.246
+           102.772 209.18C102.772 206.22 103.758 203.801 105.728 201.924C107.698
+           200.048 110.78 198.827 114.97 198.265L122.508 197.264V196.638C122.508
+           195.116 122.019 193.964 121.039 193.183C120.059 192.4 118.703 192.009
+           116.973 192.009C115.658 192.009 114.194 192.228 112.578 192.666C110.962
+           193.105 109.32 193.803 107.651 194.762L104.305 188.913C106.494 187.641
+           108.668 186.718 110.826 186.144C112.984 185.571 115.335 185.285 117.88
+           185.285C122.655 185.285 126.169 186.421 128.42 188.694C130.672 190.966
+           131.798 194.387 131.798 198.953V218.095ZM122.508 205.083V202.926L116.691
+           203.677C115.086 203.884 113.881 204.37 113.078 205.131C112.276 205.892
+           111.874 206.856 111.874 208.024C111.874 209.15 112.265 210.072 113.047
+           210.792C113.829 211.511 114.887 211.871 116.222 211.871C118.077 211.871
+           119.589 211.23 120.757 209.948C121.924 208.665 122.508 207.044 122.508
+           205.083Z"
+        fill={fill}
+      />
+      {/* i — stem */}
+      <path d="M150.606 186.066H140.722V218.095H150.606V186.066Z" fill={fill} />
+      {/* i — dot */}
+      <path
+        d="M145.663 181.393C148.392 181.393 150.605 179.18 150.605 176.451C150.605
+           173.722 148.392 171.509 145.663 171.509C142.934 171.509 140.721 173.722
+           140.721 176.451C140.721 179.18 142.934 181.393 145.663 181.393Z"
+        fill={fill}
+      />
+    </svg>
+  );
+}
+
+// ── main export ───────────────────────────────────────────────────────────────
+
+export function Logo({
+  variant = "horizontal",
+  iconColor = "#FD9F26",
+  textColor = "#0a0a0a",
+  size = "md",
+  className,
+  style,
+}: LogoProps) {
+  // Resolve size to pixels
+  const iconH =
+    typeof size === "number"
+      ? size
+      : (SIZE_MAP[size as SizeKey] ?? SIZE_MAP.md);
+  const iconW = Math.round(iconH * ICON_ASPECT);
+
+  // Text dimensions depend on layout
+  const textW =
+    variant === "horizontal"
+      ? Math.round(iconH * TEXT_ASPECT) // same height as icon → compute width
+      : iconW; // same width as icon → auto height
+  const textH =
+    variant === "horizontal" ? iconH : Math.round(iconW / TEXT_ASPECT);
+
+  // Gap proportional to icon size
+  const gap = Math.max(6, Math.round(iconH * 0.2));
+
+  const isHorizontal = variant === "horizontal";
+  const isVertical = variant === "vertical";
+  const showIcon = variant !== "wordmark";
+  const showText = variant !== "icon";
+
+  return (
+    <div
+      role="img"
+      aria-label="Velai"
+      style={{ gap, ...style }}
+      className={cn(
+        "inline-flex items-center",
+        isHorizontal && "flex-row",
+        isVertical && "flex-col",
+        className,
+      )}
+    >
+      {showIcon && <FlameIcon fill={iconColor} width={iconW} height={iconH} />}
+      {showText && (
+        <VelaiWordmark fill={textColor} width={textW} height={textH} />
+      )}
+    </div>
+  );
+}

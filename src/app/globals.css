@@ -3,15 +3,16 @@
 /* ── Brand Tokens (Velai Design System v2.0) ── */
 @theme {
     /* Colors */
-    --color-gold: #f6b91a;
-    --color-gold-hover: #ff8a1f;
-    --color-gold-dark: #d49c0f;
-    --color-gold-light: #feeebf;
-    --color-gold-muted: color-mix(in srgb, #f6b91a 12%, transparent);
+    /* Oceano palette */
+    --color-gold: #22d3ee;
+    --color-gold-hover: #06b6d4;
+    --color-gold-dark: #0891b2;
+    --color-gold-light: #cffafe;
+    --color-gold-muted: color-mix(in srgb, #22d3ee 12%, transparent);
 
-    --color-navy: #161829;
-    --color-navy-dark: #0f1120;
-    --color-navy-mid: #202334;
+    --color-navy: #0d2d45;
+    --color-navy-dark: #071c2e;
+    --color-navy-mid: #163b58;
 
     --color-canvas: #f5f7fb;
     --color-warm: #fff8f4;
@@ -73,70 +74,6 @@ body {
 ::selection {
     background-color: color-mix(in srgb, #f6b91a 25%, transparent);
     color: var(--color-navy);
-}
-
-/* ──────────────────────────────────────────────────────────────────── */
-/* Theme overrides                                                       */
-/* Each theme overrides the brand tokens from @theme above.             */
-/* Tailwind v4 utility classes reference CSS custom properties via       */
-/* var(), so overriding them here changes every bg-gold, text-gold, etc. */
-/* ──────────────────────────────────────────────────────────────────────── */
-
-/* Âmbar is the default — no override needed (matches @theme values) */
-
-[data-theme="oceano"] {
-    --color-gold: #22d3ee;
-    --color-gold-hover: #06b6d4;
-    --color-gold-dark: #0891b2;
-    --color-gold-light: #cffafe;
-    --color-gold-muted: color-mix(in srgb, #22d3ee 12%, transparent);
-    --color-navy: #0d2d45;
-    --color-navy-dark: #071c2e;
-    --color-navy-mid: #163b58;
-}
-
-[data-theme="floresta"] {
-    --color-gold: #34d399;
-    --color-gold-hover: #10b981;
-    --color-gold-dark: #059669;
-    --color-gold-light: #d1fae5;
-    --color-gold-muted: color-mix(in srgb, #34d399 12%, transparent);
-    --color-navy: #0d2a18;
-    --color-navy-dark: #071a0f;
-    --color-navy-mid: #163823;
-}
-
-[data-theme="aurora"] {
-    --color-gold: #c084fc;
-    --color-gold-hover: #a855f7;
-    --color-gold-dark: #9333ea;
-    --color-gold-light: #f3e8ff;
-    --color-gold-muted: color-mix(in srgb, #c084fc 12%, transparent);
-    --color-navy: #1a1035;
-    --color-navy-dark: #0e0820;
-    --color-navy-mid: #231548;
-}
-
-[data-theme="terra"] {
-    --color-gold: #fb923c;
-    --color-gold-hover: #f97316;
-    --color-gold-dark: #ea580c;
-    --color-gold-light: #ffedd5;
-    --color-gold-muted: color-mix(in srgb, #fb923c 12%, transparent);
-    --color-navy: #2a1509;
-    --color-navy-dark: #1a0e07;
-    --color-navy-mid: #381c0c;
-}
-
-[data-theme="gelo"] {
-    --color-gold: #60a5fa;
-    --color-gold-hover: #3b82f6;
-    --color-gold-dark: #2563eb;
-    --color-gold-light: #dbeafe;
-    --color-gold-muted: color-mix(in srgb, #60a5fa 12%, transparent);
-    --color-navy: #0a1a2e;
-    --color-navy-dark: #07101e;
-    --color-navy-mid: #101f35;
 }
 
 /* ── Scrollbar (subtle) ── */

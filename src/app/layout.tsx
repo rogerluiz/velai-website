@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/lib/theme-context";
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,33 +37,14 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * Runs before React hydration to apply the saved theme immediately,
- * preventing a flash of the default theme on first paint.
- */
-const antiFlashScript = `(function(){try{var t=localStorage.getItem('velai-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})()`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${inter.variable} ${bricolage.variable}`}
-      suppressHydrationWarning
-    >
-      <head>
-        {/* Anti-flash: apply saved theme before first paint */}
-        <script dangerouslySetInnerHTML={{ __html: antiFlashScript }} />
-      </head>
-      <body className="min-h-screen antialiased">
-        <ThemeProvider>
-          {children}
-          <ThemeSwitcher />
-        </ThemeProvider>
-      </body>
+    <html lang="pt-BR" className={`${inter.variable} ${bricolage.variable}`}>
+      <body className="min-h-screen antialiased">{children}</body>
     </html>
   );
 }
