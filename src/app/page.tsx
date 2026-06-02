@@ -1,3 +1,4 @@
+import { ComingSoon } from "@/components/sections/coming-soon";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Hero } from "@/components/sections/hero";
@@ -12,7 +13,13 @@ import { Pricing } from "@/components/sections/pricing";
 import { Faq } from "@/components/sections/faq";
 import { CtaFinal } from "@/components/sections/cta-final";
 
+const isProd = process.env.NEXT_PUBLIC_APP_ENV === "prod";
+
 export default function Home() {
+  if (isProd) {
+    return <ComingSoon />;
+  }
+
   return (
     <>
       <Navbar />

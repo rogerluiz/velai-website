@@ -1,8 +1,17 @@
 name: CI / CD
 
 on:
+  # QA e Dev: deploy automático em cada push
   push:
-    branches: [main, qa, develop]
+    branches: [qa, develop]
+
+  # Prod: somente disparo manual — controle total sobre o que vai ao ar
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit SHA a deployar (deixe vazio para usar HEAD de main)"
+        required: false
+        default: ""
 
 # Cancela deploy anterior se um novo push chegar na mesma branch
 concurrency:
@@ -46,6 +55,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.sha || github.sha }}
 
       - uses: actions/setup-node@v4
         with:
@@ -57,12 +68,16 @@ jobs:
         id: target
         shell: bash
         run: |
-          case "${{ github.ref_name }}" in
-            main)    ENV=prod; PORT=3000 ;;
-            qa)      ENV=qa;   PORT=3001 ;;
-            develop) ENV=dev;  PORT=3002 ;;
-            *)       echo "Branch desconhecida: ${{ github.ref_name }}"; exit 1 ;;
-          esac
+          # workflow_dispatch sempre deploya prod (branch main)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ENV=prod; PORT=3000
+          else
+            case "${{ github.ref_name }}" in
+              qa)      ENV=qa;   PORT=3001 ;;
+              develop) ENV=dev;  PORT=3002 ;;
+              *)       echo "Branch desconhecida: ${{ github.ref_name }}"; exit 1 ;;
+            esac
+          fi
           echo "env=$ENV"              >> $GITHUB_OUTPUT
           echo "port=$PORT"            >> $GITHUB_OUTPUT
           echo "app=velai-$ENV"        >> $GITHUB_OUTPUT
