@@ -91,6 +91,8 @@ jobs:
               cwd: "DIR_PLACEHOLDER",
               node_args: "--max-old-space-size=350",
               max_memory_restart: "400M",
+              max_restarts: 5,
+              restart_delay: 5000,
               env: {
                 PORT: "PORT_PLACEHOLDER",
                 NODE_ENV: "production",
